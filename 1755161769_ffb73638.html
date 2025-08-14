@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Markdown with ECharts</title>
+    
+        <style>
+            /* 全局基础样式 */
+            body { 
+                font-family: 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif; 
+                line-height: 1.8; 
+                color: #222;  
+                max-width: 1000px;  
+                margin: 0 auto;    
+                padding: 30px 20px; 
+                background: #fff;
+            }
+
+            /* 标题样式 */
+            h1, h2, h3, h4 { 
+                color: #2c3e50;  
+                margin-top: 36px; 
+                margin-bottom: 12px; 
+                font-weight: 600;
+                position: relative;
+                padding-left: 12px;
+            }
+            h1 { 
+                font-size: 24px; 
+                border-left: 6px solid #42b983; 
+                border-bottom: 2px solid #f2f2f2;
+                padding-bottom: 0.4em;
+            }
+            h2 { 
+                font-size: 20px; 
+                border-left: 5px solid #3498db; 
+                margin-top: 40px;
+            }
+            h3 { 
+                font-size: 18px; 
+                border-left: 4px solid #e67e22; 
+                padding-left: 8px;
+                margin-top: 32px;
+            }
+            h4 { 
+                font-size: 16px; 
+                border-left: 3px solid #9b59b6; 
+                padding-left: 6px;
+            }
+
+            /* 段落样式 */
+            p { 
+                margin-bottom: 18px; 
+                text-align: justify; 
+                text-indent: 2em;
+            }
+
+            /* 列表样式 */
+            ul, ol { 
+                padding-left: 2.2em; 
+                margin-bottom: 18px; 
+            }
+            li { 
+                margin-bottom: 8px; 
+                list-style: square;
+            }
+            ol li { list-style: decimal; }
+
+            /* 表格样式 */
+            table { 
+                width: 100%;
+                max-width: 1000px;
+                margin: 20px 0; 
+                border-collapse: collapse; 
+                font-size: 14px; 
+                box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+                table-layout: auto;
+            }
+            th, td { 
+                border: 1px solid #dfe2e5; 
+                padding: 12px 10px;
+                text-align: left; 
+                vertical-align: middle;
+                white-space: nowrap;
+            }
+            th { 
+                background: #f8f9fa; 
+                font-weight: 600;
+                color: #495057; 
+            }
+            tr:nth-child(even) { background: #fcfcfc; }
+            tr:hover { background: #f5faff; }
+
+            @media (max-width: 600px) {
+                table {
+                    display: block;
+                    overflow-x: auto;
+                }
+            }
+
+            /* 图片样式 */
+            img { 
+                max-width: 100%; 
+                height: auto; 
+                display: block; 
+                margin: 24px 0;
+                border-radius: 8px; 
+                box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            }
+
+            /* 代码块样式 */
+            code { 
+                font-family: 'Fira Code', Consolas, Monaco, monospace; 
+                background: #2d2d2d; 
+                color: #ccc;
+                padding: 0.2em 0.5em; 
+                border-radius: 4px; 
+                font-size: 85%; 
+                margin: 0 2px;
+            }
+            pre { 
+                background: #2d2d2d; 
+                color: #ccc;
+                padding: 16px; 
+                border-radius: 6px; 
+                overflow-x: auto; 
+                margin: 20px 0;
+                line-height: 1.6;
+                font-size: 14px;
+            }
+            pre code { 
+                background: transparent; 
+                padding: 0; 
+                margin: 0;
+            }
+
+            /* 引用样式 */
+            blockquote { 
+                border-left: 6px solid #ccc; 
+                padding: 12px 20px; 
+                color: #666;  
+                margin: 20px 0; 
+                background: #f9f9f9;
+                font-style: italic;
+            }
+
+            /* 分隔线样式 */
+            hr { 
+                border: none; 
+                height: 1px; 
+                background: #eee; 
+                margin: 30px 0;
+            }
+
+            /* ECharts图表容器样式 */
+            .echarts-container {
+                width: 100%;
+                height: 400px;
+                margin: 24px 0;
+            }
+        </style>
+        
+    
+        <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+        
+</head>
+<body>
+    <p></p>
+
+<h3>一、AI总结报告</h3>
+
+<h4>总结</h4>
+
+<ol><li><strong>研发层</strong>：</li></ol>
+   - 个人bug总数最高为梁琴（307个），最低为游政杰（10个），差距显著。
+   - 分担bug数以贺鑫良（84个）和黄鸿（71个）最高，分担压力较大。
+   - 非当天解决bug数前三：梁琴（49个）、黄鸿（48个）、肖笃有（46个），效率待提升。
+   - 重复激活bug数黄鸿（14个）、梁琴（13个）突出，需加强问题一次修复率。
+
+<ol><li><strong>测试层</strong>：</li></ol>
+   - 赵燕提出bug总数最高（922个），阮刚最低（25个），测试能力差异明显。
+   - 体验类bug赵燕（27个）、刘畅（11个）较多；优化类bug赵燕（75个）占比显著。
+   - 历史遗留bug刘畅（68个）管理压力大，需求问题bug集中在刘畅（35个）。
+
+<h4>存在问题</h4>
+
+<ol><li><strong>研发问题</strong>：</li></ol>
+   - 非当天解决率普遍偏高（平均35%），影响问题响应速度。
+   - 重复激活集中在头部人员（黄鸿、梁琴占比超30%），自测环节薄弱。
+
+<ol><li><strong>测试问题</strong>：</li></ol>
+   - 需求问题类bug占比过低（平均3.5%），需求评审阶段漏检较多。
+   - 历史bug管理不善（总计136个），缺乏系统化跟踪机制。
+
+<h4>提升加强部分</h4>
+
+<ol><li><strong>研发改进</strong>：</li></ol>
+   - 推行&quot;T+1解决&quot;考核机制（责任人：黄鸿/梁琴团队）。
+   - 建立重复激活bug复盘会（每周例会跟踪）。
+
+<ol><li><strong>测试改进</strong>：</li></ol>
+   - 优化类bug需前置到需求评审阶段（责任人：赵燕）。
+   - 历史bug实行分级标记制度（工具支持：JIRA标签系统）。
+
+<ol><li><strong>工具优化</strong>：</li></ol>
+   - 开发自动化回归测试工具（优先级：P0历史bug）。
+
+<p>---</p>
+
+<h3>二、研发层</h3>
+
+<h3>1、个人bug维度</h3>
+
+<div id="echarts-container-1" class="echarts-container"></div>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">姓名</th>
+<th style="text-align:left;">刘畅</th>
+<th style="text-align:left;">周方发</th>
+<th style="text-align:left;">汤璇</th>
+<th style="text-align:left;">赵燕</th>
+<th style="text-align:left;">钟志岳</th>
+<th style="text-align:left;">阮刚</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">bug数</td>
+<td style="text-align:left;">11</td>
+<td style="text-align:left;">0</td>
+<td style="text-align:left;">0</td>
+<td style="text-align:left;">27</td>
+<td style="text-align:left;">11</td>
+<td style="text-align:left;">0</td>
+</tr>
+</tbody>
+</table>
+
+<h3>2、历史bug维度</h3>
+
+<div id="echarts-container-2" class="echarts-container"></div>
+
+<div id="echarts-container-3" class="echarts-container"></div>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">姓名</th>
+<th style="text-align:left;">汤璇</th>
+<th style="text-align:left;">赵燕</th>
+<th style="text-align:left;">钟志岳</th>
+<th style="text-align:left;">阮刚</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">bug数</td>
+<td style="text-align:left;">0</td>
+<td style="text-align:left;">27</td>
+<td style="text-align:left;">11</td>
+<td style="text-align:left;">0</td>
+</tr>
+</tbody>
+</table>
+
+<p></p>
+    
+            <script type="text/javascript">
+                document.addEventListener('DOMContentLoaded', function() {
+            
+                    var chart_echarts_container_1 = echarts.init(document.getElementById('echarts-container-1'));
+                    var option_echarts_container_1 = {
+  "title": {
+    "left": "center",
+    "text": "aaa"
+  },
+  "tooltip": {
+    "trigger": "axis",
+    "axisPointer": {
+      "type": "cross"
+    }
+  },
+  "xAxis": {
+    "type": "category",
+    "data": [
+      "游政杰",
+      "蔡立俊",
+      "刘曦"
+    ]
+  },
+  "yAxis": {
+    "type": "value"
+  },
+  "series": [
+    {
+      "data": [
+        30,
+        306,
+        28
+      ],
+      "type": "bar",
+      "smooth": true
+    }
+  ]
+};
+                    chart_echarts_container_1.setOption(option_echarts_container_1);
+                    window.addEventListener('resize', function() {
+                        chart_echarts_container_1.resize();
+                    });
+                
+                    var chart_echarts_container_2 = echarts.init(document.getElementById('echarts-container-2'));
+                    var option_echarts_container_2 = {
+  "title": {
+    "left": "center",
+    "text": "bbb"
+  },
+  "tooltip": {
+    "trigger": "axis",
+    "axisPointer": {
+      "type": "cross"
+    }
+  },
+  "xAxis": {
+    "type": "category",
+    "data": [
+      "蔡立俊",
+      "游政杰",
+      "刘曦"
+    ]
+  },
+  "yAxis": {
+    "type": "value"
+  },
+  "series": [
+    {
+      "data": [
+        70,
+        26,
+        58
+      ],
+      "type": "bar",
+      "smooth": true
+    }
+  ]
+};
+                    chart_echarts_container_2.setOption(option_echarts_container_2);
+                    window.addEventListener('resize', function() {
+                        chart_echarts_container_2.resize();
+                    });
+                
+                    var chart_echarts_container_3 = echarts.init(document.getElementById('echarts-container-3'));
+                    var option_echarts_container_3 = {
+  "title": {
+    "left": "center",
+    "text": "cccc"
+  },
+  "tooltip": {
+    "trigger": "axis",
+    "axisPointer": {
+      "type": "cross"
+    }
+  },
+  "xAxis": {
+    "type": "category",
+    "data": [
+      "蔡立俊",
+      "游政杰",
+      "刘曦"
+    ]
+  },
+  "yAxis": {
+    "type": "value"
+  },
+  "series": [
+    {
+      "data": [
+        70,
+        26,
+        58
+      ],
+      "type": "bar",
+      "smooth": true
+    }
+  ]
+};
+                    chart_echarts_container_3.setOption(option_echarts_container_3);
+                    window.addEventListener('resize', function() {
+                        chart_echarts_container_3.resize();
+                    });
+                
+                });
+            </script>
+            
+</body>
+</html>
